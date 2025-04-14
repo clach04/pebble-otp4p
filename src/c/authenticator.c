@@ -12,6 +12,11 @@ consider moving current current_token into settings, con is that it would rewrit
 #include "sha1.h"
 #include "base32.h"
 
+//#define myDEBUG_HEAP
+//#define DEBUG_STACK
+#ifdef DEBUG_STACK
+    static uint32_t stack_initial;
+#endif /* DEBUG_STACK */
 
 static Window *window=NULL;
 static TextLayer *label_layer=NULL;
@@ -113,6 +118,20 @@ static void in_received_handler(DictionaryIterator *iter, void *context) {
     int data_len=-1;
     unsigned char temp_key[10];
     char * temp_key_base32=NULL;
+
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "%s() entry", __func__);
+    #ifdef DEBUG_STACK
+        register uint32_t sp __asm__("sp");
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "%s() sp=%p (%ju bytes)", __func__, (void*) sp, (uintmax_t) stack_initial - sp);
+    #endif /* DEBUG_STACK */
+
+    #ifdef myDEBUG_HEAP
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "%s() heap free %ju bytes heap used %ju bytes", __func__, (uintmax_t) heap_bytes_free(), (uintmax_t) heap_bytes_used());
+    #endif /* myDEBUG_HEAP */
+
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "%s() dictionary size %d bytes", __func__, (void*) iter->end - (void*) iter->dictionary);
+
+
 #ifdef PBL_PLATFORM_APLITE
 	Tuple *timezone_tuple = dict_find(iter, MESSAGE_KEY_timezone);
 
@@ -415,6 +434,11 @@ static void deinit(void) {
 }
 
 int main(void) {
+    #ifdef DEBUG_STACK
+        register uint32_t sp __asm__("sp");
+        stack_initial = sp;
+    #endif /* DEBUG_STACK */
+
 	init();
 	app_event_loop();
 	deinit();
