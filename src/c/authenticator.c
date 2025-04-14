@@ -65,6 +65,14 @@ void reset_timeout()
 void get_config() {
     int value_read=-1;
 
+//#define WIPE_CONFIG
+#ifdef WIPE_CONFIG
+    persist_delete(MESSAGE_KEY_CURRENT_TOKEN);
+    persist_delete(MESSAGE_KEY_timezone);
+    persist_delete(MESSAGE_KEY_PEBBLE_SETTINGS_VERSION);
+    persist_delete(MESSAGE_KEY_PEBBLE_SETTINGS);
+#endif // WIPE_CONFIG
+
     current_token = persist_exists(MESSAGE_KEY_CURRENT_TOKEN) ? persist_read_int(MESSAGE_KEY_CURRENT_TOKEN) : 0;
     current_token_changed = true;
 
@@ -110,8 +118,11 @@ static void in_received_handler(DictionaryIterator *iter, void *context) {
 
 	if (timezone_tuple) {
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "incoming message timezone");
-		timezone_mins_offset = timezone_tuple->value->int32;
-		persist_write_int(MESSAGE_KEY_timezone, timezone_mins_offset);
+		if (timezone_mins_offset != timezone_tuple->value->int32) {
+			timezone_mins_offset = timezone_tuple->value->int32;
+			persist_write_int(MESSAGE_KEY_timezone, timezone_mins_offset);
+		}
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "Using timezone minutes offset=%d", timezone_mins_offset);
 	}
 #endif // PBL_PLATFORM_APLITE
 
@@ -200,7 +211,7 @@ static void in_received_handler(DictionaryIterator *iter, void *context) {
             APP_LOG(APP_LOG_LEVEL_DEBUG, "write settings FAILURE");
         }
     }
-    persist_write_int(MESSAGE_KEY_PEBBLE_SETTINGS_VERSION, config_version);
+    persist_write_int(MESSAGE_KEY_PEBBLE_SETTINGS_VERSION, config_version);  // either this crashes or on return/exit of this function crash
 }
 
 void in_dropped_handler(AppMessageResult reason, void *context) {
@@ -230,10 +241,20 @@ uint32_t get_token() {
 	uint32_t unix_time = time(NULL);
 	//APP_LOG(APP_LOG_LEVEL_DEBUG, "raw unix_time()=%lu", unix_time);
 #ifdef PBL_PLATFORM_APLITE
+    // With SDK3/Firmware 3
+    //      struct tm *current_time is local time
+    //      time_t time(NULL) is UTC time
+    // FIXME above is true for non-APLITE platforms, but not for Aplite in CloudPebble Emulator.
+    // This does NOT appear to be documented
+
+#ifdef NO_UTC_SUPPORT
+	// firmware 2 likely needs this, as does Aplite emulator with firmware 3
+	// Do not adjust on Pebble Steel hardware with Firmware 3.12.3
 	// firmware 3 is supposed to be available for Aplite but in CloudPebble this is locale and not UTC
 	int adjustment = 60 * -1 * timezone_mins_offset;
 
 	unix_time = unix_time - adjustment;
+#endif  // NO_UTC_SUPPORT
 #endif  // else Firmware 3+ basalt, chalk and later so is UTC already
 	//APP_LOG(APP_LOG_LEVEL_DEBUG, "UTC unix_time()=%lu", unix_time);
 	unix_time /= 30;
