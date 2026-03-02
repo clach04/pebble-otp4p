@@ -1,6 +1,6 @@
 # otp4p - 2FA / OTP for Pebble
 
-otp4p is a [TOTP](http://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm) based two-factor authentication manager for Pebble. It generates **T**ime-based **O**ne-**t**ime **P**assword for any service offering TOTP two-factor authentication including Google, Dropbox, Facebook, Microsoft, GitHub, Linode, etc.
+otp4p is a completely offline [TOTP](http://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm) based two-factor authentication manager for Pebble. It generates **T**ime-based **O**ne-**t**ime **P**assword for any service offering TOTP two-factor authentication including Google, Dropbox, Facebook, Microsoft, GitHub, Linode, etc.
 
 This is a SDK 4 port of @Neal's [pebble-authenticator](https://github.com/neal/pebble-authenticator), which is a fork of IEF's authenticator fork, which is a fork of pokey9000's twostep.
 This was previously named ClayAuthenticator as it uses Clay for offline config, whilst [ClayAuthenticator binarie](https://github.com/clach04/pebble-authenticator/releases)s were released on GitHub there hadn't been a Rebble Store release.
