@@ -1,3 +1,5 @@
+var meta = require('../../package.json');
+
 module.exports = [
     { 
         "type": "heading", 
@@ -131,5 +133,9 @@ module.exports = [
     {
         "type": "submit",
         "defaultValue": "Save"
+    },
+    {
+        "type": "text",
+        "defaultValue": "v" + meta.version
     }
 ];
