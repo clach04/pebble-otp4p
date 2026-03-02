@@ -26,7 +26,7 @@ time_t timeout_timer=0;
 #endif // PBL_PLATFORM_APLITE
 
 
-#include "settings.inc"
+#include "settings_inc.c"
 
 
 void handle_second_tick(struct tm *tick_time, TimeUnits units_changed);
