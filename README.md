@@ -1,8 +1,9 @@
-# Authenticator
+# otp4p - 2FA / OTP for Pebble
 
-Authenticator is a [TOTP](http://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm) based two-factor authentication manager for Pebble. It generates **T**ime-based **O**ne-**t**ime **P**assword for any service offering TOTP two-factor authentication including Google, Dropbox, Facebook, Microsoft, GitHub, Linode, etc.
+otp4p is a [TOTP](http://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm) based two-factor authentication manager for Pebble. It generates **T**ime-based **O**ne-**t**ime **P**assword for any service offering TOTP two-factor authentication including Google, Dropbox, Facebook, Microsoft, GitHub, Linode, etc.
 
 This is a SDK 4 port of @Neal's pebble-authenticator, which is a fork of IEF's authenticator fork, which is a fork of pokey9000's twostep.
+This was previously named ClayAuthenticator as it uses Clay for offline config, whilst ClayAuthenticator binaries were released on GitHub there hadn't been a Rebble Store release.
 
 Option to vibrate when 5 seconds remain until the token renews and another one for new token.
 
@@ -19,7 +20,7 @@ NOTE secret length is limited to 256-bits (32 bytes). Recommendation in [RFC 422
 
 Either of:
 
-* Cloudpebble (currently requires self hosting) and SDK3/4.
+* Cloudpebble (self hosted or https://cloudpebble.repebble.com/ide/import/github/clach04/pebble-otp4p/) and SDK3/4.
 * local SDK, known to work with Pebble Tool v4.5 and SDK 4.3.
 
 Running the `pebble` command assumes you have Pebble SDK installed configured to compile Pebble apps.
@@ -32,9 +33,9 @@ Uses Clay.
 See http://www.tomsguide.com/faq/id-2430350/find-authentication-code-pebble.html or https://web.archive.org/web/20170429103612/https://m.connectedly.com/how-get-your-two-step-verification-codes-your-pebble for how to get secrets onto phone/pebble. Extract/summary:
 
 > So for example in Gmail, you'll need to login and go to https://accounts.google.com/b/0/SmsAuthSettings. Once there, select "Move to a different phone"
-> 	
+>
 > Choose your phone type and click Continue
-> 
+>
 > Now select the "Can't scan the barcode?" link to reveal the Secret -- in this case a string of 32 characters in the yellow box. Enter that code into the config for Pebble app.
 
 ## Install
