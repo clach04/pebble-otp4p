@@ -38,7 +38,15 @@ See http://www.tomsguide.com/faq/id-2430350/find-authentication-code-pebble.html
 >
 > Now select the "Can't scan the barcode?" link to reveal the Secret -- in this case a string of 32 characters in the yellow box. Enter that code into the config for Pebble app.
 
+Alternatively use an Android phone app like https://github.com/helloworld1/FreeOTPPlus to extract secrets.
+
 ## Install
 
 	$ pebble build
 	$ pebble install
+
+
+## Testing and Compatability
+
+Includes builtin test entries. Same sample entries available with https://github.com/clach04/pyFreeOTPPlus
+which can also be imported/tested with Android app https://github.com/helloworld1/FreeOTPPlus
