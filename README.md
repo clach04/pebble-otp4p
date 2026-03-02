@@ -25,7 +25,7 @@ NOTE secret length is limited to 256-bits (32 bytes). Recommendation in [RFC 422
 
 Either of:
 
-* Cloudpebble (self hosted or https://cloudpebble.repebble.com/ide/import/github/clach04/pebble-otp4p/ClayAuthenticator **NOTE main not building**) and SDK3/4.
+* Cloudpebble (self hosted or https://cloudpebble.repebble.com/ide/import/github/clach04/pebble-otp4p/ClayAuthenticator **NOTE main not building in Cloudpebble due to .inc file not getting included **) and SDK3/4.
 * local SDK, known to work with Pebble Tool v4.5 and SDK 4.3.
 
 Running the `pebble` command assumes you have Pebble SDK installed configured to compile Pebble apps.
