@@ -2,6 +2,8 @@
 
 otp4p is a completely offline [TOTP](http://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm) based two-factor authentication manager for Pebble. It generates **T**ime-based **O**ne-**t**ime **P**assword for any service offering TOTP two-factor authentication including Google, Dropbox, Facebook, Microsoft, GitHub, Linode, etc.
 
+Supports secret length to 32-bytes (256-bits).
+
 Get it from https://apps.rebble.io/en_US/application/69a50e6dc698570008fa2fc6
 or https://github.com/clach04/pebble-otp4p/releases
 
