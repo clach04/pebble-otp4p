@@ -5,6 +5,8 @@ add more entries
 handle more config settings (move most NUM_SETTINGS usage to use settings count)
 consider moving current current_token into settings, con is that it would rewrites all settings on exit (so maybe not)
 */
+#include <stdbool.h>
+
 #include <pebble.h>
 
 #include <pebble-packet/pebble-packet.h>  // https://github.com/C-D-Lewis/pebble-packet/blob/master/include/pebble-packet.h
@@ -26,7 +28,7 @@ time_t timeout_timer=0;
 #endif // PBL_PLATFORM_APLITE
 
 
-#include "settings_inc.c"
+#include "settings_inc.h"
 
 
 void handle_second_tick(struct tm *tick_time, TimeUnits units_changed);
