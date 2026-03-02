@@ -5,12 +5,12 @@
         "pebble-packet": "^1.2.0"
     },
     "keywords": ["pebble-app"],
-    "name": "clayauthenticator",
+    "name": "otp4p",
     "pebble": {
         "capabilities": [
             "configurable"
         ],
-        "displayName": "ClayAuthenticator",
+        "displayName": "otp4p",
         "enableMultiJS": true,
         "messageKeys": [
             "timezone",
