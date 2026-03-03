@@ -339,26 +339,38 @@ static void click_config_provider(void *context) {
 	window_single_repeating_click_subscribe(BUTTON_ID_DOWN, repeat_interval_ms, (ClickHandler) click_handler);
 }
 
+#define PERCENT_WIDTH(x) (PBL_DISPLAY_WIDTH * x / 1000)  // where x is a 1000th. E.g. x=18 == 1.8%, x=1000 == 100%
+#define PERCENT_HEIGHT(x) (PBL_DISPLAY_HEIGHT * x / 1000)  // where x is a 1000th. E.g. x=18 == 1.8%, x=1000 == 100%
+
+#define LABEL_FONT FONT_KEY_GOTHIC_24_BOLD
+#define TICKER_FONT FONT_KEY_GOTHIC_18_BOLD
+#if defined(PBL_PLATFORM_EMERY) || defined(PBL_PLATFORM_GABBRO)
+	#define TOKEN_FONT FONT_KEY_BITHAM_42_BOLD
+#else
+	#define TOKEN_FONT FONT_KEY_BITHAM_34_MEDIUM_NUMBERS
+#endif
+
+
 static void window_load(Window *window) {
 	Layer *window_layer = window_get_root_layer(window);
 	GRect bounds = layer_get_bounds(window_layer);
 
-	label_layer = text_layer_create((GRect) { .origin = { 0, 20 }, .size = bounds.size });
+	label_layer = text_layer_create((GRect) { .origin = { 0, PERCENT_HEIGHT(120) }, .size = bounds.size });  // FIXME max 16 byte name wraps on RECT with 3 characters (with very little space between token PIN), and Chalk overflows without wrapping
 	text_layer_set_text_color(label_layer, GColorWhite);
 	text_layer_set_background_color(label_layer, GColorClear);
-	text_layer_set_font(label_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
+	text_layer_set_font(label_layer, fonts_get_system_font(LABEL_FONT));
 	text_layer_set_text_alignment(label_layer, GTextAlignmentCenter);
 
-	token_layer = text_layer_create((GRect) { .origin = { 0, 60 }, .size = bounds.size });
+	token_layer = text_layer_create((GRect) { .origin = { 0, PERCENT_HEIGHT(358) }, .size = bounds.size });
 	text_layer_set_text_color(token_layer, GColorWhite);
 	text_layer_set_background_color(token_layer, GColorClear);
-	text_layer_set_font(token_layer, fonts_get_system_font(FONT_KEY_BITHAM_34_MEDIUM_NUMBERS));
+	text_layer_set_font(token_layer, fonts_get_system_font(TOKEN_FONT));
 	text_layer_set_text_alignment(token_layer, GTextAlignmentCenter);
 
-	ticker_layer = text_layer_create((GRect) { .origin = { 0, 120 }, .size = bounds.size });
+	ticker_layer = text_layer_create((GRect) { .origin = { 0, PERCENT_HEIGHT(715) }, .size = bounds.size });
 	text_layer_set_text_color(ticker_layer, GColorWhite);
 	text_layer_set_background_color(ticker_layer, GColorClear);
-	text_layer_set_font(ticker_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
+	text_layer_set_font(ticker_layer, fonts_get_system_font(TICKER_FONT));
 	text_layer_set_text_alignment(ticker_layer, GTextAlignmentCenter);
 
 	layer_add_child(window_layer, text_layer_get_layer(label_layer));
